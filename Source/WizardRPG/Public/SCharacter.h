@@ -6,24 +6,35 @@
 #include "GameFramework/Character.h"
 #include "SCharacter.generated.h"
 
+class UCameraComponent;
+class USpringArmComponent;
+class USInteractionComponent;
 UCLASS()
 class WIZARDRPG_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
+	
 	ASCharacter();
 
 protected:
-	// Called when the game starts or when spawned
+	UPROPERTY(VisibleAnywhere, Category = "Camera")
+		UCameraComponent* CameraComp;
+	UPROPERTY(VisibleAnywhere, Category = "Camera")
+		USpringArmComponent* SpringArmComp;
+	UPROPERTY(EditAnywhere,Category="Component")
+		USInteractionComponent* InteractComp;
+
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+	void PrimaryInteract();
+	
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
+	virtual FVector GetPawnViewLocation() const override;
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
