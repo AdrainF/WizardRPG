@@ -8,7 +8,7 @@
 
 // Sets default values for this component's properties
 USInteractionComponent::USInteractionComponent()
-{	
+{
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
@@ -30,15 +30,15 @@ void USInteractionComponent::PrimaryInteract()
 	CollisionShape.SetSphere(Radius);
 	FCollisionQueryParams Params;
 	ASCharacter* MyCharacter = Cast<ASCharacter>(GetOwner());
-	Start= MyCharacter->GetPawnViewLocation();
-	End = MyCharacter->GetPawnViewLocation()+ (MyCharacter->GetControlRotation().Vector() * 5000);
+	Start = MyCharacter->GetPawnViewLocation();
+	End = MyCharacter->GetPawnViewLocation() + (MyCharacter->GetControlRotation().Vector() * 5000);
 	Params.AddIgnoredActor(MyCharacter);
 
-	bool bBlockHit= GetWorld()->SweepMultiByObjectType(OutHits, Start, End, FQuat::Identity, ObjectQueryParams, CollisionShape, Params);
+	bool bBlockHit = GetWorld()->SweepMultiByObjectType(OutHits, Start, End, FQuat::Identity, ObjectQueryParams, CollisionShape, Params);
 
 	FColor LineColor = bBlockHit ? FColor::Green : FColor::Red;
 
-	for (FHitResult Hit: OutHits)
+	for (FHitResult Hit : OutHits)
 	{
 		AActor* HitActor = Hit.GetActor();
 		if (HitActor->Implements<USGameplayInterface>())
@@ -46,7 +46,7 @@ void USInteractionComponent::PrimaryInteract()
 			APawn* MyPawn = Cast<APawn>(MyCharacter);
 			ISGameplayInterface::Execute_Interact(HitActor, MyPawn);
 
-			DrawDebugSphere(GetWorld(), Hit.ImpactPoint, Radius,32, LineColor, false, 2.0f);
+			DrawDebugSphere(GetWorld(), Hit.ImpactPoint, Radius, 32, LineColor, false, 2.0f);
 			break;
 		}
 

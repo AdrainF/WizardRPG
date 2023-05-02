@@ -14,8 +14,7 @@ class WIZARDRPG_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-public:
-	
+public:	
 	ASCharacter();
 
 protected:

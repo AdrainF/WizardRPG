@@ -7,19 +7,19 @@
 #include "SInteractionComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class WIZARDRPG_API USInteractionComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	USInteractionComponent();
 
 protected:
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	void PrimaryInteract();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-		
+
 };
