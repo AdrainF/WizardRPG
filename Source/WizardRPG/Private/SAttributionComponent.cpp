@@ -30,6 +30,6 @@ bool USAttributionComponent::ApplyHealthChange(const float Delta)
 	
 	float NewHealth = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 	Health = NewHealth;
+	OnHealthChange.Broadcast(nullptr, this, Health, Delta);
 	return true;
-
 }

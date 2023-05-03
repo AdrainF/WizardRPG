@@ -9,6 +9,7 @@
 class UCameraComponent;
 class USpringArmComponent;
 class USInteractionComponent;
+class USActionComponent;
 UCLASS()
 class WIZARDRPG_API ASCharacter : public ACharacter
 {
@@ -24,10 +25,13 @@ protected:
 		USpringArmComponent* SpringArmComp;
 	UPROPERTY(EditAnywhere,Category="Component")
 		USInteractionComponent* InteractComp;
+	UPROPERTY(EditDefaultsOnly,Category="Component")
+		USActionComponent* ActionComp;
 
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void PrimaryInteract();
+	void PrimaryAttack();
 	
 	virtual void BeginPlay() override;
 

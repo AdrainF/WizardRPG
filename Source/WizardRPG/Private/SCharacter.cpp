@@ -7,6 +7,7 @@
 #include <GameFramework/Character.h>
 #include <GameFramework\CharacterMovementComponent.h>
 #include "SInteractionComponent.h"
+#include "SActionComponent.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -22,6 +23,7 @@ ASCharacter::ASCharacter()
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	InteractComp = CreateDefaultSubobject<USInteractionComponent>("InteractComp");
+	ActionComp = CreateDefaultSubobject<USActionComponent>("ActionComp");
 
 }
 
@@ -48,6 +50,12 @@ void ASCharacter::MoveRight(float Value)
 void ASCharacter::PrimaryInteract()
 {
 	InteractComp->PrimaryInteract();
+	
+}
+
+void ASCharacter::PrimaryAttack()
+{
+	ActionComp->StartActionByName(this,"PrimaryAttack");
 }
 
 FVector ASCharacter::GetPawnViewLocation() const
@@ -76,5 +84,6 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("Turn", this, &ASCharacter::AddControllerYawInput);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ASCharacter::PrimaryInteract);
+	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::PrimaryAttack);
 }
 

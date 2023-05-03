@@ -1,14 +1,14 @@
 #include "SProjectileBase.h"
 #include <Components/SphereComponent.h>
-#include <Components/StaticMeshComponent.h>
 #include <GameFramework/ProjectileMovementComponent.h>
 #include "SAttributionComponent.h"
+#include <Particles/ParticleSystemComponent.h>
 
 ASProjectileBase::ASProjectileBase()
 {
 	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
 	RootComponent = SphereComp;
-	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>("ProjectileMesh");
+	ProjectileMesh = CreateDefaultSubobject<UParticleSystemComponent>("ProjectileMesh");
 	ProjectileMesh->SetupAttachment(SphereComp);
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovement");
 	ProjectileMovement->InitialSpeed = 1000.0f;
@@ -27,14 +27,32 @@ void ASProjectileBase::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, 
 		if (AttriComp)
 		{
 			AttriComp->ApplyHealthChange(Damage);
+			Explode();
 		}
+	}
+}
+
+void ASProjectileBase::OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherActor!=GetInstigator())
+	{
+		Explode();
+	}
+}
+
+void ASProjectileBase::Explode_Implementation()
+{
+	if (ensure(IsValid(this)))
+	{
+		Destroy();
 	}
 }
 
 void ASProjectileBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-
+	SphereComp->IgnoreActorWhenMoving(GetInstigator(), true);
+	SphereComp->OnComponentHit.AddDynamic(this, &ASProjectileBase::OnActorHit);
 }
 
 
