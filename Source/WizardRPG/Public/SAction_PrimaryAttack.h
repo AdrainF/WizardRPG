@@ -23,7 +23,8 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly,Category="Projectile")
 	TSubclassOf<AActor> ProjectileClass;
-	
+	UPROPERTY(EditDefaultsOnly,Category="Projectile")
+	float TraceRadius;
 	void SpawnActor(TSubclassOf<AActor> const ClassToSpawm,AActor* InstigatorActor);
 
 };
