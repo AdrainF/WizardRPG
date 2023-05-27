@@ -15,16 +15,38 @@ class WIZARDRPG_API USAction_PrimaryAttack : public USAction
 	GENERATED_BODY()
 	
 public:
+
 	USAction_PrimaryAttack();
 
-	
-		virtual void StartAction_Implementation(AActor* Instigator) override;
+	virtual void StartAction_Implementation(AActor* Instigator) override;
 
 protected:
-	UPROPERTY(EditDefaultsOnly,Category="Projectile")
-	TSubclassOf<AActor> ProjectileClass;
-	UPROPERTY(EditDefaultsOnly,Category="Projectile")
+	
+	// Sphere radius of the sweep to find desired target under crosshair
+	UPROPERTY(EditAnywhere,Category="Targeting")
+	float SweepRadius;
+
+	//Distance when sweep finds no collison
+	UPROPERTY(EditAnywhere,Category="Targeting")
+	float SweepDistance;
+
+	UPROPERTY(EditAnywhere,Category="Targeting")
 	float TraceRadius;
-	void SpawnActor(TSubclassOf<AActor> const ClassToSpawm,AActor* InstigatorActor);
+
+	UPROPERTY(EditDefaultsOnly,Category="Attack")
+	TSubclassOf<AActor> ProjectileClass;
+
+	UPROPERTY(VisibleAnywhere, Category = "Effects")
+	FName HandSocketName;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	float AttackAnimDelay;
+
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TObjectPtr<UAnimMontage> AttackAnim;
+
+	UFUNCTION()
+	void AttackDelay_Elapsed(ACharacter* InstigatorCharacter);
+	
 
 };
