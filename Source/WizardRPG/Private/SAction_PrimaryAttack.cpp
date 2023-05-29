@@ -49,7 +49,7 @@ void USAction_PrimaryAttack::AttackDelay_Elapsed(ACharacter* InstigatorCharacter
 		FCollisionShape CollisionShape;
 		CollisionShape.SetSphere(SweepRadius);
 
-		FVector SpawnRotation = InstigatorCharacter->GetActorRotation().Vector();	
+		FVector SpawnRotation = InstigatorCharacter->GetControlRotation().Vector();
 		//Add sweep radius to avoid projectile targeting objects directly against camera.
 		FVector TraceStart = InstigatorCharacter->GetPawnViewLocation()+ (SpawnRotation* SweepRadius);
 		// endpoint far into the look-at distance
@@ -70,11 +70,11 @@ void USAction_PrimaryAttack::AttackDelay_Elapsed(ACharacter* InstigatorCharacter
 		if (GetWorld()->SweepSingleByObjectType(Hit,TraceStart,TraceEnd,FQuat::Identity,ObjParams,CollisionShape,Params))
 		{
 			// Overwrite  trace end with hit impact point.
-			TraceEnd = Hit.ImpactPoint;;
+			TraceEnd = Hit.ImpactPoint;
 		}
 
 		// find new direction/rotation from Hand pointing to impact point in world.
-		FRotator ProjectileRotation = (TraceEnd - HandLocation).Rotation();
+		FRotator ProjectileRotation = FRotationMatrix::MakeFromX(TraceEnd - HandLocation).Rotator();
 
 		FTransform SpawnTM = FTransform(ProjectileRotation, HandLocation);
 		GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParam);

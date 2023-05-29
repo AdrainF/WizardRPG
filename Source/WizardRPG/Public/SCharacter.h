@@ -32,6 +32,8 @@ protected:
 	void MoveRight(float Value);
 	void PrimaryInteract();
 	void PrimaryAttack();
+	void BlackHole();
+	void Teleport();
 	
 	virtual void BeginPlay() override;
 

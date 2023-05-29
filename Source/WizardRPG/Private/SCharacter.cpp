@@ -58,6 +58,16 @@ void ASCharacter::PrimaryAttack()
 	ActionComp->StartActionByName(this,"PrimaryAttack");
 }
 
+void ASCharacter::BlackHole()
+{
+	ActionComp->StartActionByName(this, "BlackHole");
+}
+
+void ASCharacter::Teleport()
+{
+	ActionComp->StartActionByName(this, "Teleport");
+}
+
 FVector ASCharacter::GetPawnViewLocation() const
 {
 	return CameraComp->GetComponentLocation();
@@ -85,5 +95,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ASCharacter::PrimaryInteract);
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::PrimaryAttack);
+	PlayerInputComponent->BindAction("BlackHole", IE_Pressed, this, &ASCharacter::BlackHole);
+	PlayerInputComponent->BindAction("Teleport", IE_Pressed, this, &ASCharacter::Teleport);
 }
 
