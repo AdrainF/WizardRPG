@@ -10,6 +10,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class USInteractionComponent;
 class USActionComponent;
+class USAttributionComponent;
 UCLASS()
 class WIZARDRPG_API ASCharacter : public ACharacter
 {
@@ -27,6 +28,8 @@ protected:
 		USInteractionComponent* InteractComp;
 	UPROPERTY(EditDefaultsOnly,Category="Component")
 		USActionComponent* ActionComp;
+	UPROPERTY(EditDefaultsOnly, Category="Component")
+		USAttributionComponent* AttriComp;
 
 	void MoveForward(float Value);
 	void MoveRight(float Value);

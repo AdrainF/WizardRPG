@@ -3,18 +3,21 @@
 #include <GameFramework/ProjectileMovementComponent.h>
 #include "SAttributionComponent.h"
 #include <Particles/ParticleSystemComponent.h>
+#include <Kismet/GameplayStatics.h>
 
 ASProjectileBase::ASProjectileBase()
 {
 	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
 	RootComponent = SphereComp;
+
 	ProjectileMesh = CreateDefaultSubobject<UParticleSystemComponent>("ProjectileMesh");
 	ProjectileMesh->SetupAttachment(SphereComp);
+
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovement");
 	ProjectileMovement->InitialSpeed = 1000.0f;
 	ProjectileMovement->ProjectileGravityScale = 0.0f;
-	SphereComp->OnComponentBeginOverlap.AddDynamic(this,&ASProjectileBase::OnActorOverlap );
 
+	SphereComp->OnComponentBeginOverlap.AddDynamic(this,&ASProjectileBase::OnActorOverlap );
 }
 
 
@@ -26,7 +29,7 @@ void ASProjectileBase::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, 
 		
 		if (AttriComp)
 		{
-			AttriComp->ApplyHealthChange(Damage);
+			AttriComp->ApplyHealthChange(-Damage);
 			Explode();
 		}
 	}
@@ -43,7 +46,8 @@ void ASProjectileBase::OnActorHit(UPrimitiveComponent* HitComponent, AActor* Oth
 void ASProjectileBase::Explode_Implementation()
 {
 	if (ensure(IsValid(this)))
-	{
+	{	
+		UGameplayStatics::SpawnEmitterAtLocation(this, ImpactVFX, GetActorLocation(), GetActorRotation());
 		Destroy();
 	}
 }

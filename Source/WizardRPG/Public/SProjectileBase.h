@@ -8,6 +8,7 @@
 class USphereComponent;
 class UParticleSystemComponent;
 class UProjectileMovementComponent;
+class UParticleSystem;
 UCLASS()
 class WIZARDRPG_API ASProjectileBase : public AActor
 {
@@ -25,6 +26,8 @@ protected:
 		UProjectileMovementComponent* ProjectileMovement;
 	UPROPERTY(EditDefaultsOnly,Category="Attack")
 		float Damage;
+	UPROPERTY(EditDefaultsOnly,Category="Attack")
+		UParticleSystem* ImpactVFX;
 
 	UFUNCTION()
 		virtual void OnActorOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

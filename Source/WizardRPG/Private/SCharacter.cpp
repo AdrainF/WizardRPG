@@ -8,6 +8,7 @@
 #include <GameFramework\CharacterMovementComponent.h>
 #include "SInteractionComponent.h"
 #include "SActionComponent.h"
+#include "SAttributionComponent.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -16,14 +17,21 @@ ASCharacter::ASCharacter()
 
 	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>("SpringArmComp");
 	SpringArmComp->SetupAttachment(RootComponent);
-	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
-	CameraComp->SetupAttachment(SpringArmComp);
 	SpringArmComp->TargetArmLength = 600.0f;
 	SpringArmComp->bUsePawnControlRotation = true;
+
+	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
+	CameraComp->SetupAttachment(SpringArmComp);
+
 	bUseControllerRotationYaw = false;
+
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+
 	InteractComp = CreateDefaultSubobject<USInteractionComponent>("InteractComp");
+
 	ActionComp = CreateDefaultSubobject<USActionComponent>("ActionComp");
+
+	AttriComp = CreateDefaultSubobject<USAttributionComponent>("AttriComp");
 
 }
 
