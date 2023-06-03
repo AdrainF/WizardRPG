@@ -32,6 +32,7 @@ ASCharacter::ASCharacter()
 	ActionComp = CreateDefaultSubobject<USActionComponent>("ActionComp");
 
 	AttriComp = CreateDefaultSubobject<USAttributionComponent>("AttriComp");
+	AttriComp->OnHealthChange.AddDynamic(this, &ASCharacter::OnHealthChange);
 
 }
 
@@ -74,6 +75,15 @@ void ASCharacter::BlackHole()
 void ASCharacter::Teleport()
 {
 	ActionComp->StartActionByName(this, "Teleport");
+}
+
+void ASCharacter::OnHealthChange(AActor* InstigatorActor, USAttributionComponent* OwningComp, float NewHealth, float Delta)
+{
+	if (Delta<0.0f)
+	{
+		GetMesh()->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+	}
+
 }
 
 FVector ASCharacter::GetPawnViewLocation() const
